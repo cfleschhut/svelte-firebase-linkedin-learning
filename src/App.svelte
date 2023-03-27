@@ -1,10 +1,18 @@
 <script lang="ts">
+  import Signup from './auth/Signup.svelte'
+  import Login from './auth/Login.svelte'
+  import Logout from './auth/Logout.svelte'
+
   import svelteLogo from './assets/svelte.svg'
   import viteLogo from '/vite.svg'
   import Counter from './lib/Counter.svelte'
 </script>
 
 <main>
+  <Signup />
+  <Login />
+  <Logout />
+
   <div>
     <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
       <img src={viteLogo} class="logo" alt="Vite Logo" />
