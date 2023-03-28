@@ -8,6 +8,7 @@
     signInWithEmailAndPassword,
     signOut,
   } from 'firebase/auth'
+  import { getFirestore, collection, getDocs } from 'firebase/firestore'
 
   import Signup from './auth/Signup.svelte'
   import Login from './auth/Login.svelte'
@@ -16,6 +17,18 @@
   import svelteLogo from './assets/svelte.svg'
   import viteLogo from '/vite.svg'
   import Counter from './lib/Counter.svelte'
+
+  const db = getFirestore()
+
+  const readData = async () => {
+    const querySnapshot = await getDocs(collection(db, 'cars'))
+    querySnapshot.forEach((doc) => {
+      console.log({
+        id: doc.id,
+        ...doc.data(),
+      })
+    })
+  }
 
   const auth = getAuth()
 
@@ -58,6 +71,8 @@
       if (user) {
         session.set({ user })
         console.log(user.uid, 'signed in')
+
+        readData()
       } else {
         session.set({ user: null })
         console.log('not signed in')
