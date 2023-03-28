@@ -1,23 +1,18 @@
 <script lang="ts">
-  import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+  import { createEventDispatcher } from 'svelte'
 
   let email = ''
   let password = ''
 
-  const auth = getAuth()
+  const dispatch = createEventDispatcher()
 
   const handleSubmit = (ev: SubmitEvent) => {
     ev.preventDefault()
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user
-
-        console.log(user)
-      })
-      .catch((error) => {
-        console.log(error.message)
-      })
+    dispatch('signin', {
+      email,
+      password,
+    })
   }
 </script>
 

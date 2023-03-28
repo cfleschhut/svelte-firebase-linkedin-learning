@@ -1,4 +1,14 @@
 <script lang="ts">
+  import { onMount } from 'svelte'
+  import { session } from './stores'
+  import {
+    getAuth,
+    onAuthStateChanged,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut,
+  } from 'firebase/auth'
+
   import Signup from './auth/Signup.svelte'
   import Login from './auth/Login.svelte'
   import Logout from './auth/Logout.svelte'
@@ -6,12 +16,63 @@
   import svelteLogo from './assets/svelte.svg'
   import viteLogo from '/vite.svg'
   import Counter from './lib/Counter.svelte'
+
+  const auth = getAuth()
+
+  const handleAuth = async (event: CustomEvent) => {
+    switch (event.type) {
+      case 'signin':
+        try {
+          const response = await signInWithEmailAndPassword(
+            auth,
+            event.detail.email,
+            event.detail.password
+          )
+          console.log(response.user)
+        } catch (error) {
+          console.log(error.message)
+        }
+        break
+
+      case 'signup':
+        try {
+          const response = await createUserWithEmailAndPassword(
+            auth,
+            event.detail.email,
+            event.detail.password
+          )
+          console.log(response.user)
+        } catch (error) {
+          console.log(error.message)
+        }
+        break
+
+      case 'logout':
+        signOut(auth)
+        break
+    }
+  }
+
+  onMount(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        session.set({ user })
+        console.log(user.uid, 'signed in')
+      } else {
+        session.set({ user: null })
+        console.log('not signed in')
+      }
+    })
+  })
 </script>
 
 <main>
-  <Signup />
-  <Login />
-  <Logout />
+  {#if $session && $session.user == null}
+    <Login on:signin={handleAuth} />
+    <Signup on:signup={handleAuth} />
+  {:else}
+    <Logout on:logout={handleAuth} />
+  {/if}
 
   <div>
     <a href="https://vitejs.dev" target="_blank" rel="noreferrer">

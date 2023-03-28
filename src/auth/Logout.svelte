@@ -1,7 +1,9 @@
 <script lang="ts">
-  import { getAuth, signOut } from 'firebase/auth'
+  import { createEventDispatcher } from 'svelte'
+
+  const dispatch = createEventDispatcher()
 </script>
 
 <p>
-  <button on:click={() => signOut(getAuth())}>Logout</button>
+  <button on:click={() => dispatch('logout')}>Logout</button>
 </p>
