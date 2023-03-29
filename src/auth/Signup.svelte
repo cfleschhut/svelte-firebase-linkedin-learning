@@ -6,9 +6,7 @@
 
   const dispatch = createEventDispatcher()
 
-  const handleSubmit = (ev: SubmitEvent) => {
-    ev.preventDefault()
-
+  const handleSubmit = () => {
     dispatch('signup', {
       email,
       password,
@@ -16,7 +14,7 @@
   }
 </script>
 
-<form on:submit={handleSubmit}>
+<form on:submit|preventDefault={handleSubmit}>
   <fieldset>
     <legend>Signup</legend>
     <div>

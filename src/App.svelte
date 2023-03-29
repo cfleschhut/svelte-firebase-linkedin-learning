@@ -13,6 +13,7 @@
   import Signup from './auth/Signup.svelte'
   import Login from './auth/Login.svelte'
   import Logout from './auth/Logout.svelte'
+  import ErrorList from './auth/ErrorList.svelte'
 
   import svelteLogo from './assets/svelte.svg'
   import viteLogo from '/vite.svg'
@@ -31,8 +32,19 @@
   }
 
   const auth = getAuth()
+  let errors = []
 
   const handleAuth = async (event: CustomEvent) => {
+    if (event.detail) {
+      errors = []
+      const { email, password } = event.detail
+
+      if (!email.length) errors.push('Email should not be empty')
+      if (!password.length) errors.push('Password should not be empty')
+
+      if (errors.length) return
+    }
+
     switch (event.type) {
       case 'signin':
         try {
@@ -85,6 +97,8 @@
   {#if $session && $session.user == null}
     <Login on:signin={handleAuth} />
     <Signup on:signup={handleAuth} />
+
+    <ErrorList {errors} />
   {:else}
     <Logout on:logout={handleAuth} />
   {/if}
