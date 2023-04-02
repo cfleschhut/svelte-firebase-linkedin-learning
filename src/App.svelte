@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import { session } from './stores'
+  import { session, path } from './stores'
   import {
     getAuth,
     onAuthStateChanged,
@@ -66,26 +66,44 @@
     }
   }
 
+  const handleHashChange = () => {
+    path.set(window.location.hash.slice(1))
+  }
+
   onMount(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         session.set({ user })
+        window.location.hash = `/user/${user.uid}`
+
         console.log(user.uid, 'signed in')
       } else {
         session.set({ user: null })
+        window.location.hash = '/'
+
         console.log('not signed in')
       }
     })
   })
 </script>
 
+<svelte:window on:hashchange={handleHashChange} />
+
 <main>
   {#if $session && $session.user != null}
     <TodoList />
     <Logout on:logout={handleAuth} />
   {:else}
-    <Login on:signin={handleAuth} />
-    <Signup on:signup={handleAuth} />
+    <p>
+      <a href="#/login">Login</a> |
+      <a href="#/signup">Signup</a>
+    </p>
+
+    {#if $path === '/login'}
+      <Login on:signin={handleAuth} />
+    {:else if $path === '/signup'}
+      <Signup on:signup={handleAuth} />
+    {/if}
     <ErrorList {errors} />
   {/if}
 

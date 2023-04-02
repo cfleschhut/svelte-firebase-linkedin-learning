@@ -23,14 +23,14 @@
   let todos = []
   let newTodoTitle = ''
 
-  onSnapshot(colRef, (querySnapshot) => {
-    querySnapshot.forEach((doc) =>
-      console.log({
-        id: doc.id,
-        ...doc.data(),
-      })
-    )
-  })
+  // onSnapshot(colRef, (querySnapshot) => {
+  //   querySnapshot.forEach((doc) =>
+  //     console.log({
+  //       id: doc.id,
+  //       ...doc.data(),
+  //     })
+  //   )
+  // })
 
   const getTodos = async () => {
     const querySnapshot = await getDocs(colRef)
@@ -103,7 +103,7 @@
           <input
             type="checkbox"
             on:change={() => toggleCompleted(todo)}
-            checked={todo.completed}
+            bind:checked={todo.completed}
           />
           {todo.title}
         </label>

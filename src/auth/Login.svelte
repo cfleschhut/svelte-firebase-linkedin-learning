@@ -14,6 +14,8 @@
   }
 </script>
 
+<h2>Login</h2>
+
 <form on:submit|preventDefault={handleSubmit}>
   <fieldset>
     <legend>Login</legend>

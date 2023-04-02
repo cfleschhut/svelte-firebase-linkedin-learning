@@ -14,6 +14,8 @@
   }
 </script>
 
+<h2>Signup</h2>
+
 <form on:submit|preventDefault={handleSubmit}>
   <fieldset>
     <legend>Signup</legend>
