@@ -14,11 +14,13 @@
   }
 </script>
 
-<h2>Login</h2>
+<hgroup>
+  <h1>Sign in</h1>
+  <h2>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</h2>
+</hgroup>
 
 <form on:submit|preventDefault={handleSubmit}>
   <fieldset>
-    <legend>Login</legend>
     <div>
       <label>
         Email:
@@ -34,7 +36,7 @@
     </div>
 
     <div>
-      <button>Login</button>
+      <button>Sign in</button>
     </div>
   </fieldset>
 </form>

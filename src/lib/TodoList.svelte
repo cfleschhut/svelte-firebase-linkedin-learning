@@ -85,11 +85,15 @@
   })
 </script>
 
+<h1>Todos</h1>
+
 <form on:submit|preventDefault={addTodo} class="add-todo-form">
   <fieldset>
     <legend>Add todos</legend>
     <div>
-      <input bind:value={newTodoTitle} type="text" placeholder="New todo" />
+      <label>
+        <input bind:value={newTodoTitle} type="text" placeholder="New todo…" />
+      </label>
       <button>Add</button>
     </div>
   </fieldset>
@@ -107,42 +111,10 @@
           />
           {todo.title}
         </label>
-        <button on:click={() => deleteTodo(todo.id)}>Delete</button>
+        <button on:click={() => deleteTodo(todo.id)} class="outline"
+          >Delete</button
+        >
       </li>
     {/each}
   </ul>
 {/if}
-
-<style>
-  .add-todo-form {
-    margin: 0 0 1em;
-  }
-
-  .add-todo-form div {
-    display: flex;
-  }
-
-  .add-todo-form input[type='text'] {
-    flex: 3;
-    font-size: 100%;
-    margin: 0 8px 0 0;
-    padding: 8px;
-  }
-
-  .add-todo-form button {
-    flex: 1;
-  }
-
-  .todo-list {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .todo-list-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0.25em 0;
-  }
-</style>

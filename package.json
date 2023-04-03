@@ -19,6 +19,7 @@
     "vite": "^4.2.0"
   },
   "dependencies": {
+    "@picocss/pico": "^1.5.7",
     "firebase": "^9.18.0"
   }
 }

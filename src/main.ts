@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app'
 
 import App from './App.svelte'
-import './app.css'
+import '@picocss/pico'
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -15,7 +15,7 @@ const firebaseConfig = {
 initializeApp(firebaseConfig)
 
 const app = new App({
-  target: document.getElementById('app'),
+  target: document.body,
 })
 
 export default app

@@ -89,43 +89,52 @@
 
 <svelte:window on:hashchange={handleHashChange} />
 
-<main>
-  {#if $session && $session.user != null}
-    <TodoList />
-    <Logout on:logout={handleAuth} />
-  {:else}
+<main class="container">
+  <section>
+    {#if $session && $session.user != null}
+      <TodoList />
+      <Logout on:logout={handleAuth} />
+    {:else}
+      <nav>
+        <ul>
+          <li>
+            <a href="#/login">Login</a>
+          </li>
+          <li>
+            <a href="#/signup">Signup</a>
+          </li>
+        </ul>
+      </nav>
+
+      {#if $path === '/login'}
+        <Login on:signin={handleAuth} />
+      {:else if $path === '/signup'}
+        <Signup on:signup={handleAuth} />
+      {/if}
+
+      <ErrorList {errors} />
+    {/if}
+  </section>
+
+  <section>
+    <h2>Vite + Svelte</h2>
     <p>
-      <a href="#/login">Login</a> |
-      <a href="#/signup">Signup</a>
+      <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
+        <img src={viteLogo} class="logo" alt="Vite Logo" />
+      </a>
+      <a href="https://svelte.dev" target="_blank" rel="noreferrer">
+        <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
+      </a>
     </p>
 
-    {#if $path === '/login'}
-      <Login on:signin={handleAuth} />
-    {:else if $path === '/signup'}
-      <Signup on:signup={handleAuth} />
-    {/if}
-    <ErrorList {errors} />
-  {/if}
-
-  <h1>Vite + Svelte</h1>
-  <div>
-    <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-      <img src={viteLogo} class="logo" alt="Vite Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank" rel="noreferrer">
-      <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
-    </a>
-  </div>
-
-  <div class="card">
     <Counter />
-  </div>
+  </section>
 </main>
 
 <style>
   .logo {
     height: 6em;
-    padding: 1.5em;
+    padding: 0.5em;
     will-change: filter;
     transition: filter 300ms;
   }
