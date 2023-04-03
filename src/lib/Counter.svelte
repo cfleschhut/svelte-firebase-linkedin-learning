@@ -6,6 +6,6 @@
   }
 </script>
 
-<button on:click={increment}>
+<a href="#" on:click={increment} role="button">
   {count}
-</button>
+</a>

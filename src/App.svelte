@@ -6,13 +6,12 @@
     onAuthStateChanged,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    signOut,
   } from 'firebase/auth'
 
   import Signup from './auth/Signup.svelte'
   import Login from './auth/Login.svelte'
-  import Logout from './auth/Logout.svelte'
   import ErrorList from './auth/ErrorList.svelte'
+  import AuthNav from './auth/AuthNav.svelte'
   import TodoList from './lib/TodoList.svelte'
 
   import svelteLogo from './assets/svelte.svg'
@@ -59,10 +58,6 @@
           console.log(error.message)
         }
         break
-
-      case 'logout':
-        signOut(auth)
-        break
     }
   }
 
@@ -89,47 +84,38 @@
 
 <svelte:window on:hashchange={handleHashChange} />
 
-<main class="container">
-  <section>
-    {#if $session && $session.user != null}
-      <TodoList />
-      <Logout on:logout={handleAuth} />
-    {:else}
-      <nav>
-        <ul>
-          <li>
-            <a href="#/login">Login</a>
-          </li>
-          <li>
-            <a href="#/signup">Signup</a>
-          </li>
-        </ul>
-      </nav>
-
-      {#if $path === '/login'}
-        <Login on:signin={handleAuth} />
-      {:else if $path === '/signup'}
-        <Signup on:signup={handleAuth} />
-      {/if}
-
-      <ErrorList {errors} />
+<header class="container">
+  <AuthNav>
+    {#if $path === '/login'}
+      <Login on:signin={handleAuth} />
+    {:else if $path === '/signup'}
+      <Signup on:signup={handleAuth} />
     {/if}
-  </section>
 
-  <section>
-    <h2>Vite + Svelte</h2>
-    <p>
-      <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-        <img src={viteLogo} class="logo" alt="Vite Logo" />
-      </a>
-      <a href="https://svelte.dev" target="_blank" rel="noreferrer">
-        <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
-      </a>
-    </p>
+    <ErrorList {errors} />
+  </AuthNav>
+</header>
 
-    <Counter />
-  </section>
-</main>
+{#if $session && $session.user != null}
+  <main class="container">
+    <TodoList />
+  </main>
+{/if}
+
+<footer class="container">
+  <h2>Vite + Svelte</h2>
+
+  <p>
+    <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
+      <img src={viteLogo} class="logo" alt="Vite Logo" />
+    </a>
+    <a href="https://svelte.dev" target="_blank" rel="noreferrer">
+      <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
+    </a>
+  </p>
+
+  <Counter />
+</footer>
 
 <style>
   .logo {

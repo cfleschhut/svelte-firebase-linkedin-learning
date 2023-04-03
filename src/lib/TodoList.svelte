@@ -85,36 +85,44 @@
   })
 </script>
 
-<h1>Todos</h1>
+<section>
+  <hgroup>
+    <h1>Todos</h1>
+    <h2>Add todo</h2>
+  </hgroup>
 
-<form on:submit|preventDefault={addTodo} class="add-todo-form">
-  <fieldset>
-    <legend>Add todos</legend>
-    <div>
-      <label>
-        <input bind:value={newTodoTitle} type="text" placeholder="New todo…" />
-      </label>
-      <button>Add</button>
-    </div>
-  </fieldset>
-</form>
-
-{#if todos.length}
-  <ul class="todo-list">
-    {#each todos as todo (todo.id)}
-      <li class="todo-list-item">
+  <form on:submit|preventDefault={addTodo} class="add-todo-form">
+    <fieldset>
+      <div>
         <label>
           <input
-            type="checkbox"
-            on:change={() => toggleCompleted(todo)}
-            bind:checked={todo.completed}
+            bind:value={newTodoTitle}
+            type="text"
+            placeholder="New todo…"
           />
-          {todo.title}
         </label>
-        <button on:click={() => deleteTodo(todo.id)} class="outline"
-          >Delete</button
-        >
-      </li>
-    {/each}
-  </ul>
-{/if}
+        <button>Add</button>
+      </div>
+    </fieldset>
+  </form>
+
+  {#if todos.length}
+    <ul class="todo-list">
+      {#each todos as todo (todo.id)}
+        <li class="todo-list-item">
+          <label>
+            <input
+              type="checkbox"
+              on:change={() => toggleCompleted(todo)}
+              bind:checked={todo.completed}
+            />
+            {todo.title}
+          </label>
+          <button on:click={() => deleteTodo(todo.id)} class="outline"
+            >Delete</button
+          >
+        </li>
+      {/each}
+    </ul>
+  {/if}
+</section>
